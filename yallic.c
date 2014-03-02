@@ -14,7 +14,7 @@ yallicList createList() {
 	return head;
 }
 
-int appendTo(yallicList listHead, char * itemID, void * itemData, int itemDataSize) {
+int appendTo(yallicList listHead, char *itemID, void *itemData, int itemDataSize) {
 	yallicList newNode, lastNode, currentNode;
 
 	newNode = (yallicList)malloc(sizeof(struct yallicNode));
@@ -46,7 +46,7 @@ int appendTo(yallicList listHead, char * itemID, void * itemData, int itemDataSi
 	return 1;
 }
 
-void *findIn(yallicList listHead, char * itemID) {
+void *findIn(yallicList listHead, char *itemID) {
 	yallicList currentNode;
 
 	currentNode = listHead->next;
@@ -57,5 +57,40 @@ void *findIn(yallicList listHead, char * itemID) {
 		}
 		currentNode = currentNode->next;
 	}
+	return NULL;
+}
+
+int deleteIn(yallicList listHead, char *itemID) {
+	yallicList currentNode, prevNode;
+
+	currentNode = listHead->next;
+	prevNode    = listHead;
+	
+	while (currentNode) {
+		if (!strcmp(currentNode->id, itemID)) {
+			prevNode->next = currentNode->next;
+			free(currentNode);
+			return 1;
+		}
+		
+		prevNode    = currentNode;
+		currentNode = currentNode->next;
+	}
+
+	return 0;
+}
+
+yallicList destroyList(yallicList listHead) {
+	yallicList currentNode, prevNode;
+
+	currentNode = listHead->next;
+	while (currentNode) {
+		prevNode = currentNode;
+		currentNode = currentNode->next;
+		free(prevNode);
+	}
+
+	free(currentNode); free(listHead);
+
 	return NULL;
 }

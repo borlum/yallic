@@ -11,3 +11,5 @@ typedef struct yallicNode *yallicList;
 yallicList createList();
 int appendTo(yallicList listHead, char * itemID, void *itemData, int itemDataSize);
 void *findIn(yallicList listHead, char * itemID);
+int deleteIn(yallicList listHead, char * itemID);
+yallicList destroyList(yallicList listHead);
