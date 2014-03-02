@@ -13,5 +13,5 @@ int appendTo(yallicList listHead, char *itemID, void *itemData, int itemDataSize
 void *findIn(yallicList listHead, char *itemID);
 int deleteIn(yallicList listHead, char *itemID);
 int saveList(yallicList listHead, char *fileName);
-int loadList(yallicList listHead);
+int loadList(yallicList listHead, char * fileName);
 yallicList destroyList(yallicList listHead);
