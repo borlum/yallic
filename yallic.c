@@ -18,6 +18,10 @@ yallicList createList() {
 int appendTo(yallicList listHead, char *itemID, void *itemData, int itemDataSize) {
 	yallicList newNode, lastNode, currentNode;
 
+	/*first = head->next
+	head->next = inserted
+	inserted->next = first*/
+
 	newNode = (yallicList)malloc(sizeof(struct yallicNode));
 	if (!newNode) {
 		return 0;
@@ -33,6 +37,7 @@ int appendTo(yallicList listHead, char *itemID, void *itemData, int itemDataSize
 		return 0;
 	}
 	/*Copy the memory at itemData to our nodes data-pointer*/
+	/*Why? Why not just point?*/
 	memcpy(newNode->data, itemData, itemDataSize);
 	newNode->next = NULL;
 
@@ -79,6 +84,53 @@ int deleteIn(yallicList listHead, char *itemID) {
 	}
 
 	return 0;
+}
+
+int saveList(yallicList listHead, char *fileName) {
+	FILE * file;
+	yallicList currentNode;
+	file = fopen(fileName, "wb");
+
+	if (!file) {
+		return 0;
+	}
+
+	currentNode = listHead->next;
+	while (currentNode) {
+		fwrite(currentNode, sizeof(struct yallicNode), 1, file);
+		fwrite(currentNode->data, currentNode->dataSize, 1, file);
+      	currentNode = currentNode->next;
+	}
+
+	fclose(file);
+
+	return 1;
+}
+
+yallicList loadList(yallicList listHead, char *fileName) {
+	FILE * file;
+	yallicList currentNode, prevNode;
+	file = fopen(fileName, "rb");
+
+	if (!file) {
+		return listHead;
+	}
+
+	currentNode = (yallicList)malloc(sizeof(struct yallicNode));
+	prevNode = listHead;
+
+	while (fread(currentNode,sizeof(struct yallicNode),1,file)) {
+		currentNode->data = malloc(currentNode->dataSize);
+		fread(currentNode->data, currentNode->dataSize, 1, file);
+		prevNode->next = currentNode;
+    	prevNode = currentNode;
+    	currentNode = (yallicList)malloc(sizeof(struct yallicNode));
+	}
+
+	free(currentNode);
+	fclose(file);
+
+	return prevNode;
 }
 
 yallicList destroyList(yallicList listHead) {
