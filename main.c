@@ -1,10 +1,19 @@
 #include <stdio.h>
+#include <string.h>
 #include "yallic.h"
 
 int main() {
 	yallicList test = createList();
-	int foo = 42;
-	int * bar;
+	struct dummyData {
+		int bar;
+		char str[16];
+	};
+
+	struct dummyData foo;
+	struct dummyData * cat;
+
+	foo.bar = 42;
+	strcpy(foo.str, "foobar");
 
 	/*LIST CREATED*/
 	if (test) {
@@ -26,8 +35,8 @@ int main() {
 	}
 
 	/*FIND IN LIST*/
-	bar = findIn(test, "2308");
-	printf("%d\n", *bar);
+	cat = findIn(test, "2308");
+	printf("%s\n", cat->str);
 
 	/*DELETE IN LIST*/
 	if (deleteIn(test, "2308")) {
@@ -53,14 +62,12 @@ int main() {
 		printf("%s\n", "Data loaded!");
 	}
 
-	while (test) {
-		printf("%s\n", test->id);
-		test = test->next;
-	}
-
 	/*FIND IN LIST*/
-	bar = findIn(test, "2308");
-	printf("%d\n", *bar);
+	cat = findIn(test, "2308");
+	if (cat) {
+		printf("%s\n", "Fundet igen!");
+		printf("%s\n", cat->str);
+	}
 
 	return 0;
 }

@@ -39,6 +39,7 @@ int appendTo(yallicList listHead, char *itemID, void *itemData, int itemDataSize
 	/*Copy the memory at itemData to our nodes data-pointer*/
 	/*Why? Why not just point?*/
 	memcpy(newNode->data, itemData, itemDataSize);
+	newNode->dataSize = itemDataSize;
 	newNode->next = NULL;
 
 	/*Find the last element in our list, and append!*/
@@ -130,7 +131,7 @@ yallicList loadList(yallicList listHead, char *fileName) {
 	free(currentNode);
 	fclose(file);
 
-	return prevNode;
+	return listHead;
 }
 
 yallicList destroyList(yallicList listHead) {
