@@ -4,6 +4,7 @@
 
 int main() {
 	yallicList test = createList();
+	
 	struct dummyData {
 		int bar;
 		char str[16];
