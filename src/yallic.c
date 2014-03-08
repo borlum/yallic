@@ -38,7 +38,8 @@ int appendTo(yallicList listHead, char *itemID, void *itemData, int itemDataSize
 	}
 	/*Copy the memory at itemData to our nodes data-pointer*/
 	/*Why? Why not just point?*/
-	memcpy(newNode->data, itemData, itemDataSize);
+	/*memcpy(newNode->data, itemData, itemDataSize);*/
+	newNode->data = itemData;
 	newNode->dataSize = itemDataSize;
 	newNode->next = NULL;
 
