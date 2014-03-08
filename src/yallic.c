@@ -145,6 +145,6 @@ yallicList destroyList(yallicList listHead) {
 	}
 
 	free(currentNode); free(listHead);
-
+	listHead = NULL;
 	return NULL;
 }
