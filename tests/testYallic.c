@@ -44,6 +44,57 @@ static char * testAppendNode() {
 	return 0;
 }
 
+static char * testAppendMultiple() {
+	int returnVal = 0;
+	struct dummyData {
+		int bar;
+		char str[16];
+	};
+	struct dummyData foo, bar;
+	yallicList sampleList = createList();
+
+	foo.bar = 42;
+	bar.bar = 43;
+	strcpy(foo.str, "foobar");
+	strcpy(bar.str, "barfoo");
+
+	returnVal = appendTo(sampleList, "2308", &foo, sizeof(struct dummyData));
+	returnVal = appendTo(sampleList, "2309", &bar, sizeof(struct dummyData));
+	destroyList(sampleList);
+	assert("Error; nothing appended to list [2]", returnVal != 0);
+	return 0;
+}
+
+static char * testTraverseList() {
+	int returnVal = 0;
+	int i = 0;
+	yallicList tmp;
+
+	yallicList sampleList = createList();
+
+	//Insert 5 elements
+	appendTo(sampleList, "2308", NULL, 0);
+	appendTo(sampleList, "2309", NULL, 0);
+	appendTo(sampleList, "2310", NULL, 0);
+	appendTo(sampleList, "2311", NULL, 0);
+	appendTo(sampleList, "2312", NULL, 0);
+
+	tmp = sampleList;
+	while(tmp->next) {
+		tmp = tmp->next; i++;
+	}
+
+	/*Test passes if we ran twice!*/
+	if (i == 5) {
+		returnVal = 1;
+	}
+
+	destroyList(sampleList);
+
+	assert("Did not traverse the whole list!", returnVal != 0);
+	return 0;
+}
+
 static char * testSaveList() {
 	struct dummyData {
 		int bar;
@@ -165,6 +216,8 @@ static char * allTests() {
 	run_test(testCreateList);
 	run_test(testDestroyList);
 	run_test(testAppendNode);
+	run_test(testAppendMultiple);
+	run_test(testTraverseList);
 	run_test(testSaveList);
 	run_test(testFindInListSuccess);
 	run_test(testFindInListFail);

@@ -16,7 +16,7 @@ yallicList createList() {
 }
 
 int appendTo(yallicList listHead, char *itemID, void *itemData, int itemDataSize) {
-	yallicList newNode, lastNode, currentNode;
+	yallicList newNode, tmpNode;
 
 	/*first = head->next
 	head->next = inserted
@@ -36,21 +36,16 @@ int appendTo(yallicList listHead, char *itemID, void *itemData, int itemDataSize
 		free(newNode);
 		return 0;
 	}
-	/*Copy the memory at itemData to our nodes data-pointer*/
-	/*Why? Why not just point?*/
-	/*memcpy(newNode->data, itemData, itemDataSize);*/
+	/*Point to the data!*/
 	newNode->data = itemData;
 	newNode->dataSize = itemDataSize;
 	newNode->next = NULL;
 
-	/*Find the last element in our list, and append!*/
-	lastNode    = listHead;
-	currentNode = listHead->next;
-	while (currentNode) {
-		lastNode = currentNode;
-		currentNode = currentNode->next;
-	}
-	lastNode->next = newNode;
+	/*New implementation - append right after the first element!*/
+	tmpNode = listHead->next;
+	listHead->next = newNode;
+	newNode->next = tmpNode;
+
 	return 1;
 }
 
